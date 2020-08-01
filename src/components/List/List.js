@@ -1,26 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import "./List.css";
 
 let noteList = [
-  { id: "a", value: "Buy cat's food", completed: false },
-  { id: "b", value: "Call to sister", completed: false },
-  { id: "c", value: "Clean up bathroom", completed: false },
+  { id: "a", noteValue: "Buy cat's food", completed: false },
+  { id: "b", noteValue: "Call to sister", completed: false },
+  { id: "c", noteValue: "Clean up bathroom", completed: false },
 ];
 
 const List = () => {
+  const [note, takeNote] = useState({
+    noteValue: "",
+    id: "",
+    completed: false,
+  });
+
+  const [list, addToList] = useState(noteList);
+
+  const handleChange = (event) => {
+    takeNote({ ...note, noteValue: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    if (note) {
+      addToList(list.concat(note));
+    }
+
+    takeNote("");
+    event.preventDefault();
+  };
+
   return (
     <div className="main-view">
-      <h1>To do list</h1>
+      <h2>Add new element</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={note.noteValue} onChange={handleChange} />
+        <button type="sumit">Save</button>
+      </form>
       <h2>Your list:</h2>
-      <h2>
-        {noteList.map((note) => (
-          <ul>
-            <li key={note.id}>{note.value}</li>
+      <ul>
+        {list.map((element) => (
+          <div>
+            <li key={element.id}>{element.noteValue}</li>
             <input type="checkbox"></input>
             <button>Remove</button>
-          </ul>
+          </div>
         ))}
-      </h2>
+      </ul>
     </div>
   );
 };
