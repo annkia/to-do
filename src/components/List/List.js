@@ -16,6 +16,8 @@ const List = () => {
         {noteList.map((note) => (
           <ul>
             <li key={note.id}>{note.value}</li>
+            <input type="checkbox"></input>
+            <button>Remove</button>
           </ul>
         ))}
       </h2>
